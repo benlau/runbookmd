@@ -12,9 +12,13 @@ Define a code block with `bash run` and Runbook.md will display a `Run` button a
 
 # Features
 
-- Execute Code Blocks: Run scripts directly from Markdown code blocks with a single click or keyboard shortcut.
-- Terminal Integration: Automatically opens or creates a terminal to execute scripts, ensuring a seamless workflow.
-- User Confirmation: Add `--ask-confirm` to code blocks to prompt for user confirmation before executing potentially dangerous scripts.
+- Execute Code Blocks: Run scripts directly from Markdown code blocks with a single click or keyboard shortcut
+- Terminal Integration: Automatically opens or creates a terminal to execute scripts, ensuring a seamless workflow
+- User Confirmation: Add `--ask-confirm` to code blocks to prompt for user confirmation before executing potentially dangerous scripts
+- Parameters:
+  - Form Parameters: Define and use form parameters in your scripts for interactive input collection. (e.g `# @param Value1`)
+  - Custom Terminal Names: Specify custom terminal names for script execution using `--terminal` argument
+  - Working Directory Control: Set the working directory for script execution with `--cwd` argument
 
 # Installation 
 
