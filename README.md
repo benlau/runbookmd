@@ -1,29 +1,31 @@
 # Runbook.md
 
-Runbook.md is a VSCode extension that enables running the script in a code block from Markdown files directly with a single click.
+Runbook.md is a VSCode extension that enables running scripts in a code block from Markdown files directly with a single click.
 
-Note: This extension has been tested on MacOS and Linux environments. Windows compatibility is not currently guaranteed.
+Note: This extension has been tested on macOS and Linux environments. Windows compatibility is not currently guaranteed.
 
 # Example Usage
 
 ![Example Usage](./docs/img/example-usage-01.jpg)
 
-Define a code block with `bash run` and Runbook.md will display a `Run` button above it. Clicking the button will open or create a terminal and execute the script.
+Define a code block with `bash run`, and Runbook.md will display a `Run` button above it. Clicking the button will open or create a terminal and execute the script.
 
 # Features
 
-- Execute Code Blocks: Run scripts directly from Markdown code blocks with a single click or keyboard shortcut
-- Terminal Integration: Automatically opens or creates a terminal to execute scripts, ensuring a seamless workflow
-- User Confirmation: Add `--ask-confirm` to code blocks to prompt for user confirmation before executing potentially dangerous scripts
+- Execute Code Blocks: Run scripts directly from Markdown code blocks with a single click or keyboard shortcut.
+- Terminal Integration: Automatically opens or creates a terminal to execute scripts, ensuring a seamless workflow.
+- User Confirmation: Add `--ask-confirm` to code blocks to prompt for user confirmation before executing potentially dangerous scripts.
 - Parameters:
-  - Form Parameters: Define and use form parameters in your scripts for interactive input collection. (e.g `# @param Value1`)
-  - Custom Terminal Names: Specify custom terminal names for script execution using `--terminal` argument
-  - Working Directory Control: Set the working directory for script execution with `--cwd` argument
+  - Form Parameters: Define and use form parameters in your scripts for interactive input collection (e.g., `# @param Value1`).
+  - Custom Terminal Names: Specify custom terminal names for script execution using the `--terminal` argument.
+  - Working Directory Control: Set the working directory for script execution with the `--cwd` argument.
 
 # Installation 
 
-You may install this extension via Visual Studio Marketplace at
+You may install this extension via the Visual Studio Marketplace at
 https://marketplace.visualstudio.com/items?itemName=ubw.runbookmd
+
+Then open the [Example Markdown](./examples/walkthrough/README.md) to try the features.
 
 # Usage
 
@@ -45,7 +47,6 @@ Example:
 > 
 > \```
 
-
 ## Set Working Directory
 
 `-d, --cwd [DIRECTORY]`
@@ -59,7 +60,6 @@ Example:
 > ls # List files in ~/Documents
 > 
 > \```
-
 
 ## User Confirmation
 
@@ -116,7 +116,7 @@ Example usage:
 
 ## `send`
 
-Sends the content directly to the terminal. Unlike the `run` command which stops on errors when `set -e` is used, content sent this way will continue executing even if errors occur. Choose the mode that best suits your needs.
+Sends the content directly to the terminal. Unlike the `run` command, which stops on errors when `set -e` is used, content sent this way will continue executing even if errors occur. Choose the mode that best suits your needs.
 
 > \```bash send
 >
@@ -137,7 +137,7 @@ For example, place your cursor inside this code block and press `Shift+Enter`:
 > \```
 
 The shortcut will only work if:
-- The file is a Markdown document
-- Your cursor is inside a code block with a valid annotation (e.g. `bash run`)
-- You are not currently using the Find/Replace dialog
+- The file is a Markdown document.
+- Your cursor is inside a code block with a valid annotation (e.g., `bash run`).
+- You are not currently using the Find/Replace dialog.
 
