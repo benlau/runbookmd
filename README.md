@@ -80,10 +80,15 @@ To define a form parameter, use the `# @param` annotation followed by the parame
 Example:
 
 > \```bash run
-> # @param Value1
-> # @param Value2 ["Option1", "Option2", "Option3"]
+> 
+> \# @param Value1
+> 
+> \# @param Value2 ["Option1", "Option2", "Option3"]
+> 
 > echo "Selected Value1: $Value1"
+> 
 > echo "Selected Value2: $Value2"
+> 
 > \```
 
 **Explanation:**
