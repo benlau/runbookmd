@@ -1,6 +1,6 @@
 # Runbook.md
 
-Runbook.md is a VSCode extension that enables running scripts in a code block from Markdown files directly with a single click.
+Runbook.md is a VSCode extension that allows you to execute scripts directly from code blocks within Markdown files. It helps you create an interactive runbook for your daily maintenance tasks with GitOps/DevOps purposes.
 
 Note: This extension has been tested on macOS and Linux environments. Windows compatibility is not currently guaranteed.
 
