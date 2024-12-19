@@ -5,6 +5,7 @@
   "publisher": "ubw",
   "repository": "http://github.com/benlau/runbookmd",
   "main": "out/extension.js",
+  "icon": "./assets/icon.png",
   "engines": {
     "vscode": "^1.95.0"
   },
