@@ -3,7 +3,7 @@ import { Annotation, AnnotationParser } from "./annotationparser";
 import { marked } from "marked";
 import { FormItem, FormParser } from "./formparser";
 
-const SUPPORTED_LANGUAGES = ["bash"];
+const SUPPORTED_LANGUAGES = ["bash", "sh"];
 
 type CodeBlockAnnotation = Annotation & {
   startPos: vscode.Position;
