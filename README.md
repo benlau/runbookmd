@@ -8,7 +8,7 @@ Note: This extension has been tested on macOS and Linux environments. Windows co
 
 ![Example Usage](./docs/img/example-usage-01.jpg)
 
-Define a code block with `bash run`, and Runbook.md will display a `Run` button above it. Clicking the button will open or create a terminal and execute the script.
+Define a code block with `bash run` or `sh run`, and Runbook.md will display a `Run` button above it. Clicking the button will open or create a terminal and execute the script.
 
 # Features
 
@@ -138,6 +138,6 @@ For example, place your cursor inside this code block and press `Shift+Enter`:
 
 The shortcut will only work if:
 - The file is a Markdown document.
-- Your cursor is inside a code block with a valid annotation (e.g., `bash run`).
+- Your cursor is inside a code block with a valid annotation (e.g., `bash run` or `sh run`).
 - You are not currently using the Find/Replace dialog.
 
