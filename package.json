@@ -1,13 +1,13 @@
 {
   "name": "runbookmd",
-  "version": "0.0.2",
+  "version": "0.0.2-dev",
   "author": "Ben Lau",
   "publisher": "ubw",
   "repository": "http://github.com/benlau/runbookmd",
   "main": "out/extension.js",
   "icon": "./assets/icon.png",
   "engines": {
-    "vscode": "^1.95.0"
+    "vscode": "^1.93.0"
   },
   "activationEvents": [
     "onStartupFinished",
@@ -51,7 +51,7 @@
   },
   "devDependencies": {
     "@types/jest": "^29.5.14",
-    "@types/vscode": "^1.95.0",
+    "@types/vscode": "^1.93.0",
     "@typescript-eslint/eslint-plugin": "^4.0.0",
     "@typescript-eslint/parser": "^4.0.0",
     "@vscode/vsce": "^3.2.1",
