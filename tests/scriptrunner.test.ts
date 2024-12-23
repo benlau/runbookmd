@@ -150,5 +150,26 @@ describe("ScriptRunner", () => {
         echo 'Hello World'`
       );
     });
+
+    it("should escape double quotes in environment variables", async () => {
+      const context = {
+        script: "echo 'Hello World'",
+        workingDirectory: "/path/to",
+        action: { params: { cwd: "." } },
+        environmentVariables: [["FOO", '"1"2"3"']],
+      } as any;
+
+      const shell = "/bin/bash";
+      jest.spyOn(terminalManager, "getDefaultShell").mockReturnValue(shell);
+
+      await scriptRunner.writeScriptToFile(context);
+
+      expect((fs.writeFile as any).mock.calls[0][1]).toBe(
+        dedent`\
+        export FOO="\\"1\\"2\\"3\\""
+        cd /path/to
+        echo 'Hello World'`
+      );
+    });
   });
 });

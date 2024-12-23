@@ -199,7 +199,7 @@ export class ScriptRunner {
     const content: string[] = [];
 
     for (const [key, value] of context.environmentVariables) {
-      content.push(`export ${key}="${value}"`);
+      content.push(`export ${key}="${this.escape(value)}"`);
     }
 
     if (action.params.cwd != null) {
@@ -212,5 +212,10 @@ export class ScriptRunner {
     await fs.writeFile(this.tmpFile, content.join("\n"));
 
     return `${shell} ${this.tmpFile}`;
+  }
+
+  private escape(str: string): string {
+    // eslint-disable-next-line
+    return str.replace(/"/g, '\\"');
   }
 }
