@@ -11,7 +11,8 @@
   },
   "activationEvents": [
     "onStartupFinished",
-    "workspaceContains:**/*.md"
+    "workspaceContains:**/*.md",
+    "workspaceContains:**/*.qmd"
   ],
   "categories": [
     "Other"

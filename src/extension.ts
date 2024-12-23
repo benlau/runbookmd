@@ -71,6 +71,11 @@ export function activate(context: vscode.ExtensionContext): void {
     { scheme: "file", language: "markdown" },
     new CodeLensProvider()
   );
+
+  vscode.languages.registerCodeLensProvider(
+    { scheme: "file", language: "quarto" },
+    new CodeLensProvider()
+  );
 }
 
 export function deactivate(): void {}

@@ -1,6 +1,6 @@
 # Runbook.md
 
-Runbook.md is a VSCode extension that allows you to execute scripts directly from code blocks within Markdown files. It helps you create an interactive runbook for your daily maintenance tasks with GitOps/DevOps purposes.
+Runbook.md is a VSCode extension that allows you to execute scripts directly from code blocks within Markdown and Quarto files. It helps you create an interactive runbook for your daily maintenance tasks with GitOps/DevOps purposes.
 
 Note: This extension has been tested on macOS and Linux environments. Windows compatibility is not currently guaranteed.
 
@@ -12,7 +12,7 @@ Define a code block with `bash run` or `sh run`, and Runbook.md will display a `
 
 # Features
 
-- Execute Code Blocks: Run scripts directly from Markdown code blocks with a single click or keyboard shortcut.
+- Execute Code Blocks: Run scripts directly from Markdown and Quarto code blocks with a single click or keyboard shortcut.
 - Terminal Integration: Automatically opens or creates a terminal to execute scripts, ensuring a seamless workflow.
 - User Confirmation: Add `--ask-confirm` to code blocks to prompt for user confirmation before executing potentially dangerous scripts.
 - Parameters:
@@ -141,3 +141,8 @@ The shortcut will only work if:
 - Your cursor is inside a code block with a valid annotation (e.g., `bash run` or `sh run`).
 - You are not currently using the Find/Replace dialog.
 
+
+# Quarto (.qmd) File Support
+
+- **Run and Send Commands**: You can use `bash run`, `sh run` commands in Quarto files to execute scripts.
+- **Limitations**: The keyboard shortcut `Shift+Enter` to execute code blocks is not available for Quarto files due to keybinding conflicts. You must use the `Run` or `Send` button above the code block instead.
