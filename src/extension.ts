@@ -12,15 +12,25 @@ export function activate(context: vscode.ExtensionContext): void {
 
   const runCodeBlockCommand = vscode.commands.registerCommand(
     "runbookmd.runCodeBlock",
-    async (action: Action, script: string, form: FormItem[]) => {
-      scriptRunner.exec(action, script, form);
+    async (
+      action: Action,
+      script: string,
+      form: FormItem[],
+      languageType: string
+    ) => {
+      scriptRunner.exec(action, script, form, languageType);
     }
   );
 
   const sendCodeBlockCommand = vscode.commands.registerCommand(
     "runbookmd.sendCodeBlock",
-    async (action: Action, script: string, form: FormItem[]) => {
-      scriptRunner.exec(action, script, form);
+    async (
+      action: Action,
+      script: string,
+      form: FormItem[],
+      languageType: string
+    ) => {
+      scriptRunner.exec(action, script, form, languageType);
     }
   );
 
@@ -44,8 +54,9 @@ export function activate(context: vscode.ExtensionContext): void {
         const action = currentBlock.annotation.action;
         const script = currentBlock.content;
         const form = currentBlock.form;
+        const languageType = currentBlock.annotation.type;
 
-        scriptRunner.exec(action, script, form);
+        scriptRunner.exec(action, script, form, languageType);
       }
     }
   );

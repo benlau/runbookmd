@@ -37,7 +37,18 @@
         "key": "shift+enter",
         "when": "editorTextFocus && editorLangId == markdown && !findInputFocussed && !replaceInputFocussed"
       }
-    ]
+    ],
+    "configuration": {
+      "type": "object",
+      "title": "Runbook.md Configuration",
+      "properties": {
+        "runbookmd.defaultBashShell": {
+          "type": "string",
+          "default": "/bin/bash",
+          "description": "The default bash shell to use for executing bash scripts."
+        }
+      }
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run build",

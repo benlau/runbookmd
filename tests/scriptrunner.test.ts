@@ -84,7 +84,7 @@ describe("ScriptRunner", () => {
     it("should not execute if prepareExec returns false", async () => {
       jest.spyOn(scriptRunner, "prepareExec").mockResolvedValue(false);
       const action = { type: ActionType.Run, params: {} } as Action;
-      await scriptRunner.exec(action, "echo 'Hello World'", []);
+      await scriptRunner.exec(action, "echo 'Hello World'", [], "sh");
       expect(terminalManager.sendToTerminal).not.toHaveBeenCalled();
     });
 
@@ -92,7 +92,7 @@ describe("ScriptRunner", () => {
       jest.spyOn(scriptRunner, "prepareExec").mockResolvedValue(true);
       jest.spyOn(scriptRunner, "writeScriptToFile").mockResolvedValue("cmd");
       const action = { type: ActionType.Run, params: {} } as Action;
-      await scriptRunner.exec(action, "echo 'Hello World'", []);
+      await scriptRunner.exec(action, "echo 'Hello World'", [], "sh");
       expect(terminalManager.sendToTerminal).toHaveBeenCalledWith(
         expect.any(String),
         "cmd"
@@ -102,7 +102,7 @@ describe("ScriptRunner", () => {
     it("should execute script in Send mode", async () => {
       jest.spyOn(scriptRunner, "prepareExec").mockResolvedValue(true);
       const action = { type: ActionType.Send, params: {} } as Action;
-      await scriptRunner.exec(action, "echo 'Hello World'", []);
+      await scriptRunner.exec(action, "echo 'Hello World'", [], "sh");
       expect(terminalManager.sendToTerminal).toHaveBeenCalledWith(
         expect.any(String),
         "echo 'Hello World'"
@@ -170,6 +170,48 @@ describe("ScriptRunner", () => {
         cd /path/to
         echo 'Hello World'`
       );
+    });
+
+    it("should use /bin/bash if languageType is bash", async () => {
+      const context = {
+        languageType: "bash",
+      } as any;
+      const shell = scriptRunner.getShell(context);
+      expect(shell).toBe("/bin/bash");
+    });
+
+    it("it should get the default shell if languageType is sh", async () => {
+      const context = {
+        languageType: "sh",
+      } as any;
+      const defaultShell = "/bin/zsh";
+      jest
+        .spyOn(terminalManager, "getDefaultShell")
+        .mockReturnValue(defaultShell);
+      const shell = scriptRunner.getShell(context);
+      expect(shell).toBe(defaultShell);
+    });
+  });
+
+  describe("getShell", () => {
+    it("should use the configured default bash shell", () => {
+      const context = {
+        languageType: "bash",
+      } as any;
+      const shell = scriptRunner.getShell(context);
+      expect(shell).toBe("/bin/bash");
+    });
+
+    it("should get the default shell if languageType is sh", () => {
+      const context = {
+        languageType: "sh",
+      } as any;
+      const defaultShell = "/bin/zsh";
+      jest
+        .spyOn(terminalManager, "getDefaultShell")
+        .mockReturnValue(defaultShell);
+      const shell = scriptRunner.getShell(context);
+      expect(shell).toBe(defaultShell);
     });
   });
 });

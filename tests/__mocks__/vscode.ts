@@ -38,6 +38,17 @@ export const window = {
   onDidOpenTerminal: jest.fn(),
 };
 
+export const workspace = {
+  getConfiguration: jest.fn().mockReturnValue({
+    get: jest.fn((key: string, defaultValue: any) => {
+      if (key === "defaultBashShell") {
+        return "/bin/bash"; // Default value for testing
+      }
+      return defaultValue;
+    }),
+  }),
+};
+
 export class ExtensionContext {
   globalState = {
     get: jest.fn(),

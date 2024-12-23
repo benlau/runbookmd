@@ -49,15 +49,22 @@ class ScriptContext {
   action: Action;
   script: string;
   form: FormItem[];
+  languageType: string;
 
   filePath?: string;
   workingDirectory?: string;
   environmentVariables: [string, string][];
 
-  constructor(action: Action, script: string, form: FormItem[]) {
+  constructor(
+    action: Action,
+    script: string,
+    form: FormItem[],
+    languageType: string
+  ) {
     this.script = script;
     this.action = action;
     this.form = form;
+    this.languageType = languageType;
     this.environmentVariables = [];
   }
 }
@@ -171,8 +178,13 @@ export class ScriptRunner {
     return true;
   }
 
-  async exec(action: Action, script: string, form: FormItem[]): Promise<void> {
-    const context = new ScriptContext(action, script, form);
+  async exec(
+    action: Action,
+    script: string,
+    form: FormItem[],
+    languageType: string
+  ): Promise<void> {
+    const context = new ScriptContext(action, script, form, languageType);
 
     if ((await this.prepareExec(context)) === false) {
       return;
@@ -192,9 +204,22 @@ export class ScriptRunner {
     }
   }
 
+  getShell(context: ScriptContext): string {
+    const config = vscode.workspace.getConfiguration("runbookmd");
+    const defaultBashShell = config.get<string>(
+      "defaultBashShell",
+      "/bin/bash"
+    );
+
+    if (context.languageType === "bash") {
+      return defaultBashShell;
+    }
+    return this.terminalManager.getDefaultShell();
+  }
+
   async writeScriptToFile(context: ScriptContext): Promise<string> {
     const { script, workingDirectory, action } = context;
-    const shell = this.terminalManager.getDefaultShell();
+    const shell = this.getShell(context);
 
     const content: string[] = [];
 
