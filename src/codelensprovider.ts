@@ -26,7 +26,12 @@ export class CodeLensProvider implements vscode.CodeLensProvider {
       const commandInfo: vscode.Command = {
         title,
         command,
-        arguments: [block.annotation.action, block.content],
+        arguments: [
+          block.annotation.action,
+          block.content,
+          block.form,
+          block.annotation.type,
+        ],
       };
       return new vscode.CodeLens(block.range, commandInfo);
     });
