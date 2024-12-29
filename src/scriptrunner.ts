@@ -227,8 +227,8 @@ export class ScriptRunner {
       content.push(`export ${key}="${this.escape(value)}"`);
     }
 
-    if (action.params.cwd != null) {
-      const cmd = `cd ${workingDirectory}`;
+    if (action.params.cwd != null && workingDirectory != null) {
+      const cmd = `cd "${this.escape(workingDirectory)}"`;
       content.push(cmd);
     }
 

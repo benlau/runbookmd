@@ -125,7 +125,7 @@ describe("ScriptRunner", () => {
 
       expect((fs.writeFile as any).mock.calls[0][1]).toBe(
         dedent`\
-        cd /path/to
+        cd "/path/to"
         echo 'Hello World'`
       );
     });
@@ -146,7 +146,7 @@ describe("ScriptRunner", () => {
       expect((fs.writeFile as any).mock.calls[0][1]).toBe(
         dedent`\
         export FOO="BAR"
-        cd /path/to
+        cd "/path/to"
         echo 'Hello World'`
       );
     });
@@ -167,7 +167,27 @@ describe("ScriptRunner", () => {
       expect((fs.writeFile as any).mock.calls[0][1]).toBe(
         dedent`\
         export FOO="\\"1\\"2\\"3\\""
-        cd /path/to
+        cd "/path/to"
+        echo 'Hello World'`
+      );
+    });
+
+    it("should escape double quotes in working directory path", async () => {
+      const context = {
+        script: "echo 'Hello World'",
+        workingDirectory: '/path/with"quotes',
+        action: { params: { cwd: "." } },
+        environmentVariables: [],
+      } as any;
+
+      const shell = "/bin/bash";
+      jest.spyOn(terminalManager, "getDefaultShell").mockReturnValue(shell);
+
+      await scriptRunner.writeScriptToFile(context);
+
+      expect((fs.writeFile as any).mock.calls[0][1]).toBe(
+        dedent`\
+        cd "/path/with\\"quotes"
         echo 'Hello World'`
       );
     });

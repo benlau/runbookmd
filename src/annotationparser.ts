@@ -88,9 +88,9 @@ export class AnnotationParser {
     });
 
     program
-      .option("-t, --terminal [terminal]", "Specify terminal")
+      .option("-t, --terminal <terminal>", "Specify terminal")
       .option("--ask-confirm", "Request User Confirmation")
-      .option("-d, --cwd [cwd]", "Specify current working directory")
+      .option("-d, --cwd <cwd>", "Specify current working directory")
       .helpOption(false);
 
     program.exitOverride();
