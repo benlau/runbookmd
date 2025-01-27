@@ -1,4 +1,4 @@
-import { FormParser } from "../src/formparser";
+import { FormItemType, FormParser } from "../src/formparser";
 
 describe("FormParser", () => {
   let parser: FormParser;
@@ -11,14 +11,18 @@ describe("FormParser", () => {
     it("should parse single parameter without options", () => {
       const text = "# @param Value1";
       const result = parser.parse(text);
-      expect(result).toEqual([{ name: "Value1" }]);
+      expect(result).toEqual([{ name: "Value1", type: FormItemType.String }]);
     });
 
     it("should parse single parameter with options", () => {
       const text = '# @param Value2 ["Option1", "Option2", "Option3"]';
       const result = parser.parse(text);
       expect(result).toEqual([
-        { name: "Value2", options: ["Option1", "Option2", "Option3"] },
+        {
+          name: "Value2",
+          options: ["Option1", "Option2", "Option3"],
+          type: FormItemType.Select,
+        },
       ]);
     });
 
@@ -30,8 +34,12 @@ describe("FormParser", () => {
       `;
       const result = parser.parse(text);
       expect(result).toEqual([
-        { name: "Value1" },
-        { name: "Value2", options: ["Option1", "Option2"] },
+        { name: "Value1", type: FormItemType.String },
+        {
+          name: "Value2",
+          options: ["Option1", "Option2"],
+          type: FormItemType.Select,
+        },
       ]);
     });
 
@@ -43,19 +51,39 @@ describe("FormParser", () => {
         @param Value2
       `;
       const result = parser.parse(text);
-      expect(result).toEqual([{ name: "Value1" }]);
+      expect(result).toEqual([{ name: "Value1", type: FormItemType.String }]);
     });
 
     it("should handle invalid JSON in options gracefully", () => {
       const text = '# @param Value1 ["Option1", "Option2"';
       const result = parser.parse(text);
-      expect(result).toEqual([{ name: "Value1" }]);
+      expect(result).toEqual([{ name: "Value1", type: FormItemType.String }]);
     });
 
     it("should return an empty array if no parameters are found", () => {
       const text = "No parameters here";
       const result = parser.parse(text);
       expect(result).toEqual([]);
+    });
+
+    it("should parse parameter with password type", () => {
+      const text = "# @param secretKey password ";
+      const result = parser.parse(text);
+      expect(result).toEqual([{ name: "secretKey", type: "password" }]);
+    });
+
+    it("should parse mixed parameters including password type", () => {
+      const text = `
+        # @param username
+        # @param password password
+        # @param role ["admin", "user"]
+      `;
+      const result = parser.parse(text);
+      expect(result).toEqual([
+        { name: "username", type: "string" },
+        { name: "password", type: "password" },
+        { name: "role", type: "select", options: ["admin", "user"] },
+      ]);
     });
   });
 });

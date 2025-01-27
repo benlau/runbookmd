@@ -85,9 +85,13 @@ Example:
 > 
 > \# @param Value2 ["Option1", "Option2", "Option3"]
 > 
+> \# @param Value3 password
+> 
 > echo "Selected Value1: $Value1"
 > 
 > echo "Selected Value2: $Value2"
+> 
+> echo "Selected Value3: $Value3"
 > 
 > \```
 
@@ -95,6 +99,7 @@ Example:
 
 - **Parameter Definition**: `# @param Value1` defines a parameter named `Value1`.
 - **Options**: `# @param Value2 ["Option1", "Option2", "Option3"]` defines a parameter `Value2` with a list of options.
+- **Password**: `# @param Value3 password` defines a parameter `Value3` as a password. The password will be masked when input.
 
 These parameters can be used within your script to customize its behavior based on user input or predefined options.
 

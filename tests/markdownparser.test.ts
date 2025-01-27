@@ -2,6 +2,7 @@ import * as vscode from "./__mocks__/vscode";
 import { MarkdownParser } from "../src/markdownparser";
 import { dedent } from "./fixture";
 import { ActionType } from "../src/action";
+import { FormItemType } from "../src/formparser";
 
 jest.mock("vscode");
 
@@ -135,8 +136,12 @@ describe("MarkdownParser", () => {
         '# @param Value1\n# @param Value2 ["Option1", "Option2"]\necho "Hello World"'
       );
       expect(result[0].form).toEqual([
-        { name: "Value1" },
-        { name: "Value2", options: ["Option1", "Option2"] },
+        { name: "Value1", type: FormItemType.String },
+        {
+          name: "Value2",
+          options: ["Option1", "Option2"],
+          type: FormItemType.Select,
+        },
       ]);
     });
   });

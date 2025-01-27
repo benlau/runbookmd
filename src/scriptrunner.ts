@@ -5,7 +5,7 @@ import * as path from "path";
 import { TerminalManager } from "./terminalmanager";
 import { accessAction, Action, ActionType } from "./action";
 import { PathUtils } from "./pathutils";
-import { FormItem } from "./formparser";
+import { FormItem, FormItemType } from "./formparser";
 
 class EnvironmentVariableMemento {
   static KEY = "runbookmd.environmentVariables";
@@ -143,6 +143,13 @@ export class ScriptRunner {
           if (selected) {
             value = selected.label;
           }
+        } else if (item.type === FormItemType.Password) {
+          value = await vscode.window.showInputBox({
+            prompt: `Enter value for ${item.name}`,
+            placeHolder: item.name,
+            value: mementoValue,
+            password: true,
+          });
         } else {
           value = await vscode.window.showInputBox({
             prompt: `Enter value for ${item.name}`,
