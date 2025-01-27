@@ -234,4 +234,36 @@ describe("ScriptRunner", () => {
       expect(shell).toBe(defaultShell);
     });
   });
+
+  describe("normalizeTerminalName", () => {
+    it("should replace spaces with underscores", () => {
+      const name = "My Terminal";
+      const normalized = scriptRunner.normalizeTerminalName(name);
+      expect(normalized).toBe("my_terminal");
+    });
+
+    it("should handle non-latin characters", () => {
+      const name = "中文";
+      const normalized = scriptRunner.normalizeTerminalName(name);
+      expect(normalized).toBe("中文");
+    });
+
+    it("should remove forbidden characters", () => {
+      const name = 'Terminal\\/:*?"<>|';
+      const normalized = scriptRunner.normalizeTerminalName(name);
+      expect(normalized).toBe("terminal");
+    });
+
+    it("should return terminal if the name is empty", () => {
+      const name = "";
+      const normalized = scriptRunner.normalizeTerminalName(name);
+      expect(normalized).toBe("terminal");
+    });
+
+    it("should return terminal if the name is only underscores", () => {
+      const name = "______";
+      const normalized = scriptRunner.normalizeTerminalName(name);
+      expect(normalized).toBe("terminal");
+    });
+  });
 });

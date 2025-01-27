@@ -52,6 +52,10 @@ class ScriptContext {
   languageType: string;
 
   filePath?: string;
+
+  // The exported script file to be executed
+  scriptFile?: string;
+
   workingDirectory?: string;
   environmentVariables: [string, string][];
 
@@ -70,12 +74,12 @@ class ScriptContext {
 }
 
 export class ScriptRunner {
-  tmpFile: string;
-
   terminalManager: TerminalManager;
   pathUtils: PathUtils;
   extensionContext: vscode.ExtensionContext;
   environmentVariableMemento: EnvironmentVariableMemento;
+
+  private runCountTable: Map<string, number> = new Map();
 
   constructor(
     extensionContext: vscode.ExtensionContext,
@@ -84,8 +88,6 @@ export class ScriptRunner {
     this.terminalManager = terminalManager;
     this.pathUtils = new PathUtils();
     this.extensionContext = extensionContext;
-    const tmpDir = os.tmpdir();
-    this.tmpFile = path.join(tmpDir, `script-${Date.now()}.sh`);
     this.environmentVariableMemento = new EnvironmentVariableMemento(
       extensionContext,
       extensionContext.workspaceState
@@ -184,7 +186,21 @@ export class ScriptRunner {
     form: FormItem[],
     languageType: string
   ): Promise<void> {
+    const terminalName = accessAction(action).getTerminal();
+
+    const runCount = this.runCountTable.get(terminalName) ?? 0;
+    this.runCountTable.set(terminalName, runCount + 1);
+
+    const normalizedName = this.normalizeTerminalName(terminalName);
+    const tmpDir = os.tmpdir();
+    const runCountStr = runCount.toString().padStart(3, "0");
+    const tmpFile = path.join(
+      tmpDir,
+      `script-${normalizedName}-${runCountStr}.sh`
+    );
+
     const context = new ScriptContext(action, script, form, languageType);
+    context.scriptFile = tmpFile;
 
     if ((await this.prepareExec(context)) === false) {
       return;
@@ -220,7 +236,6 @@ export class ScriptRunner {
   async writeScriptToFile(context: ScriptContext): Promise<string> {
     const { script, workingDirectory, action } = context;
     const shell = this.getShell(context);
-
     const content: string[] = [];
 
     for (const [key, value] of context.environmentVariables) {
@@ -233,14 +248,29 @@ export class ScriptRunner {
     }
 
     content.push(script);
+    const scriptFile = context.scriptFile ?? os.tmpdir() + "/script.sh";
 
-    await fs.writeFile(this.tmpFile, content.join("\n"));
+    await fs.writeFile(scriptFile, content.join("\n"));
 
-    return `${shell} ${this.tmpFile}`;
+    return `${shell} ${scriptFile}`;
   }
 
   private escape(str: string): string {
     // eslint-disable-next-line
     return str.replace(/"/g, '\\"');
+  }
+
+  normalizeTerminalName(name: string): string {
+    const normalized = name
+      .replace(/[\\/:"*?<>|]/g, "_")
+      .replace(/\s/g, "_")
+      .replace(/_+/g, "_")
+      .replace(/^_+|_+$/g, "")
+      .toLowerCase();
+
+    if (normalized === "_" || normalized === "") {
+      return "terminal";
+    }
+    return normalized;
   }
 }
